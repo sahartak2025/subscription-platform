@@ -1,0 +1,106 @@
+{
+	"info": {
+		"_postman_id": "7e2f557c-d966-4df9-b559-d76b7ba8db5f",
+		"name": "Subscription platform",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crate Post",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "Test post 2",
+							"type": "default"
+						},
+						{
+							"key": "content",
+							"value": "Lorem ipsum",
+							"type": "default"
+						},
+						{
+							"key": "website_id",
+							"value": "2",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://subscription-platform.local/api/post",
+					"protocol": "http",
+					"host": [
+						"subscription-platform",
+						"local"
+					],
+					"path": [
+						"api",
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Subscribe",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "test@mail.com",
+							"type": "default"
+						},
+						{
+							"key": "website_id",
+							"value": "2",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://subscription-platform.local/api/subscribe",
+					"protocol": "http",
+					"host": [
+						"subscription-platform",
+						"local"
+					],
+					"path": [
+						"api",
+						"subscribe"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
