@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Enums\PostQueueStatus;
 use App\Mail\NewPostMail;
 use App\Models\Post;
 use App\Models\PostSendQueue;
@@ -13,6 +14,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
+use Throwable;
 
 class PostSendJob implements ShouldQueue, ShouldBeUnique
 {
@@ -42,13 +44,21 @@ class PostSendJob implements ShouldQueue, ShouldBeUnique
     {
         $post = Post::query()->find($this->postId);
         $subscriber = Subscriber::query()->find($this->subscriberId);
-
-        Mail::to($subscriber->email)
-            ->send(new NewPostMail($post));
-
-        PostSendQueue::query()
+        $postSendQueue = PostSendQueue::query()
             ->where('post_id', $post->id)
             ->where('subscriber_id', $subscriber->id)
-            ->delete();
+            ->first();
+
+
+        try {
+            Mail::to($subscriber->email)
+                ->send(new NewPostMail($post));
+
+            $postSendQueue->delete();
+        } catch (Throwable $exception) {
+            $postSendQueue->status = PostQueueStatus::New;
+            $postSendQueue->save();
+        }
+
     }
 }
